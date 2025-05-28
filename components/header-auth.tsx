@@ -4,6 +4,9 @@ import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/server";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { UserDropDown } from "@/components/user-menu";
+
 
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -50,7 +53,16 @@ export default async function AuthButton() {
   }
   return user ? (
     <div className="flex items-center gap-4">
-      Hey, {user.email}!
+      <UserDropDown TriggerComponent={
+        <span className="flex justify-center items-center gap-2">
+          <span>{user.email}</span>
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        </span>
+      } />
+
       <form action={signOutAction}>
         <Button type="submit" variant={"outline"}>
           Sign out
